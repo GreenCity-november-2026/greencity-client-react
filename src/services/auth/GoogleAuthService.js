@@ -3,9 +3,9 @@ import { USER_API_URL } from '../../config/api';
 import { AUTH_SETTINGS } from '../../config/settings';
 
 // Base API URL from central configuration
-const API_BASE_URL = '';
+const API_BASE_URL = '/ownSecurity';
 const GOOGLE_SECURITY_LINK = `/googleSecurity`;
-const GOOGLE_SECURITY_POST_LINK = `/googleSecurity`;
+const GOOGLE_SECURITY_POST_LINK = `${API_BASE_URL}/googleSecurity`;
 const GOOGLE_SECURITY_HEADER_LINK = `/googleSecurityHeader`;
 
 /**
@@ -21,16 +21,19 @@ class GoogleAuthService {
   static async signIn(token, language = 'en') {
     try {
       // Use POST request with token in the body
-      const response = await axios.post(GOOGLE_SECURITY_POST_LINK, {
-        token: token,
-        lang: language
-      }, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
+      const response = await axios.post(
+        GOOGLE_SECURITY_POST_LINK,
+        {
+          token: token
         },
-        withCredentials: false
-      });
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json'
+          },
+          withCredentials: false
+        }
+      );
 
       // Ensure response data has the expected token properties
       const userData = { ...response.data };
@@ -53,12 +56,17 @@ class GoogleAuthService {
     } catch (error) {
       // Provide more detailed error logging for CORS and network issues
       if (error.message && error.message.includes('Network Error')) {
-        console.error('Network error during Google sign-in with POST. This might be a CORS issue:', error);
+        console.error(
+          'Network error during Google sign-in with POST. This might be a CORS issue:',
+          error
+        );
         console.error('Server address:', API_BASE_URL);
         console.error('Google security link:', GOOGLE_SECURITY_POST_LINK);
 
         // Create a more user-friendly error
-        const corsError = new Error('Failed to connect to the authentication server. This might be due to a CORS configuration issue.');
+        const corsError = new Error(
+          'Failed to connect to the authentication server. This might be due to a CORS configuration issue.'
+        );
         corsError.originalError = error;
         throw corsError;
       } else {
@@ -77,16 +85,20 @@ class GoogleAuthService {
   static async signInWithHeader(token, language = 'en') {
     try {
       // Use POST request with token in the Authorization header
-      const response = await axios.post(GOOGLE_SECURITY_HEADER_LINK, {
-        lang: language
-      }, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': `Bearer ${token}`
+      const response = await axios.post(
+        GOOGLE_SECURITY_HEADER_LINK,
+        {
+          lang: language
         },
-        withCredentials: false
-      });
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+            Authorization: `Bearer ${token}`
+          },
+          withCredentials: false
+        }
+      );
 
       // Ensure response data has the expected token properties
       const userData = { ...response.data };
@@ -109,12 +121,17 @@ class GoogleAuthService {
     } catch (error) {
       // Provide more detailed error logging for CORS and network issues
       if (error.message && error.message.includes('Network Error')) {
-        console.error('Network error during Google sign-in with header. This might be a CORS issue:', error);
+        console.error(
+          'Network error during Google sign-in with header. This might be a CORS issue:',
+          error
+        );
         console.error('Server address:', API_BASE_URL);
         console.error('Google security header link:', GOOGLE_SECURITY_HEADER_LINK);
 
         // Create a more user-friendly error
-        const corsError = new Error('Failed to connect to the authentication server. This might be due to a CORS configuration issue.');
+        const corsError = new Error(
+          'Failed to connect to the authentication server. This might be due to a CORS configuration issue.'
+        );
         corsError.originalError = error;
         throw corsError;
       } else {
@@ -143,8 +160,8 @@ class GoogleAuthService {
           lang: language
         },
         headers: {
-          'Accept': 'application/json',
-          'Authorization': `Bearer ${idToken}`
+          Accept: 'application/json',
+          Authorization: `Bearer ${idToken}`
         },
         withCredentials: false
       });
@@ -170,12 +187,17 @@ class GoogleAuthService {
     } catch (error) {
       // Provide more detailed error logging for CORS and network issues
       if (error.message && error.message.includes('Network Error')) {
-        console.error('Network error during Google sign-in with GET. This might be a CORS issue:', error);
+        console.error(
+          'Network error during Google sign-in with GET. This might be a CORS issue:',
+          error
+        );
         console.error('Server address:', API_BASE_URL);
         console.error('Google security link:', GOOGLE_SECURITY_LINK);
 
         // Create a more user-friendly error
-        const corsError = new Error('Failed to connect to the authentication server. This might be due to a CORS configuration issue.');
+        const corsError = new Error(
+          'Failed to connect to the authentication server. This might be due to a CORS configuration issue.'
+        );
         corsError.originalError = error;
         throw corsError;
       } else {
@@ -191,9 +213,7 @@ class GoogleAuthService {
    * @returns {string} - Google client ID
    */
   static getClientId(isManager = false) {
-    return isManager
-      ? AUTH_SETTINGS.googleClientIdManager
-      : AUTH_SETTINGS.googleClientId;
+    return isManager ? AUTH_SETTINGS.googleClientIdManager : AUTH_SETTINGS.googleClientId;
   }
 }
 

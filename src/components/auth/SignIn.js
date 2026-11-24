@@ -36,7 +36,10 @@ const SignIn = ({ onPageChange, onClose }) => {
 
   // Handle Google sign-in error
   const handleGoogleError = (error) => {
-    setGeneralError(error.message || t('auth.googleSignInError', 'Failed to sign in with Google. Please try again.'));
+    setGeneralError(
+      error.message ||
+        t('auth.googleSignInError', 'Failed to sign in with Google. Please try again.')
+    );
   };
 
   // This effect was previously used to check for success messages from registration
@@ -122,7 +125,7 @@ const SignIn = ({ onPageChange, onClose }) => {
     setFormErrors(errors);
 
     // Check if there are any errors
-    const hasErrors = Object.values(errors).some(error => error);
+    const hasErrors = Object.values(errors).some((error) => error);
     if (hasErrors) {
       return;
     }
@@ -136,7 +139,10 @@ const SignIn = ({ onPageChange, onClose }) => {
       }
       navigate('/');
     } catch (error) {
-      setGeneralError(error.response?.data?.message || t('auth.signInError', 'Failed to sign in. Please check your credentials.'));
+      setGeneralError(
+        error.response?.data?.message ||
+          t('auth.signInError', 'Failed to sign in. Please check your credentials.')
+      );
     } finally {
       setLoading(false);
     }
@@ -161,18 +167,16 @@ const SignIn = ({ onPageChange, onClose }) => {
         {generalError && <div className="error-message general-error">{generalError}</div>}
 
         {/* Google Sign-In Button */}
-        <GoogleButton
-          onSuccess={handleGoogleSuccess}
-          onError={handleGoogleError}
-          useGetAuth={true}
-        />
+        <GoogleButton onSuccess={handleGoogleSuccess} onError={handleGoogleError} />
 
         {/* Separator */}
         <div className="auth-separator">{t('auth.or', 'or')}</div>
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label htmlFor="email" className={getLabelClass('email')}>{t('auth.email', 'Email')}</label>
+            <label htmlFor="email" className={getLabelClass('email')}>
+              {t('auth.email', 'Email')}
+            </label>
             <input
               type="email"
               id="email"
@@ -191,10 +195,12 @@ const SignIn = ({ onPageChange, onClose }) => {
             )}
           </div>
           <div className="form-group">
-            <label htmlFor="password" className={getLabelClass('password')}>{t('auth.password', 'Password')}</label>
+            <label htmlFor="password" className={getLabelClass('password')}>
+              {t('auth.password', 'Password')}
+            </label>
             <div className="password-input-container">
               <input
-                type={showPassword ? "text" : "password"}
+                type={showPassword ? 'text' : 'password'}
                 id="password"
                 name="password"
                 value={formData.password}
@@ -208,11 +214,19 @@ const SignIn = ({ onPageChange, onClose }) => {
                 type="button"
                 className="password-toggle-btn"
                 onClick={togglePasswordVisibility}
-                aria-label={showPassword ? t('auth.hidePassword', 'Hide password') : t('auth.showPassword', 'Show password')}
+                aria-label={
+                  showPassword
+                    ? t('auth.hidePassword', 'Hide password')
+                    : t('auth.showPassword', 'Show password')
+                }
               >
                 <img
                   src={showPassword ? AUTH_IMAGES.EYE_SHOW : AUTH_IMAGES.EYE_HIDE}
-                  alt={showPassword ? t('auth.hidePassword', 'Hide password') : t('auth.showPassword', 'Show password')}
+                  alt={
+                    showPassword
+                      ? t('auth.hidePassword', 'Hide password')
+                      : t('auth.showPassword', 'Show password')
+                  }
                 />
               </button>
             </div>
@@ -225,22 +239,37 @@ const SignIn = ({ onPageChange, onClose }) => {
           <button
             type="submit"
             className="submit-button"
-            disabled={loading || formErrors.email || formErrors.password || !formData.email || !formData.password}
+            disabled={
+              loading ||
+              formErrors.email ||
+              formErrors.password ||
+              !formData.email ||
+              !formData.password
+            }
           >
             {loading ? t('auth.signingIn', 'Signing In...') : t('auth.signInButton', 'Sign In')}
           </button>
         </form>
         <div className="auth-links">
-          <p>{t('auth.dontHaveAccount', 'Don\'t have an account?')} {onPageChange ? (
-            <button className="text-button" onClick={() => onPageChange('sign-up')}>{t('auth.signUp', 'Sign Up')}</button>
-          ) : (
-            <Link to="/auth/sign-up">{t('auth.signUp', 'Sign Up')}</Link>
-          )}</p>
-          <p>{onPageChange ? (
-            <button className="text-button" onClick={() => onPageChange('restore-password')}>{t('auth.forgotPassword', 'Forgot Password?')}</button>
-          ) : (
-            <Link to="/auth/forgot-password">{t('auth.forgotPassword', 'Forgot Password?')}</Link>
-          )}</p>
+          <p>
+            {t('auth.dontHaveAccount', "Don't have an account?")}{' '}
+            {onPageChange ? (
+              <button className="text-button" onClick={() => onPageChange('sign-up')}>
+                {t('auth.signUp', 'Sign Up')}
+              </button>
+            ) : (
+              <Link to="/auth/sign-up">{t('auth.signUp', 'Sign Up')}</Link>
+            )}
+          </p>
+          <p>
+            {onPageChange ? (
+              <button className="text-button" onClick={() => onPageChange('restore-password')}>
+                {t('auth.forgotPassword', 'Forgot Password?')}
+              </button>
+            ) : (
+              <Link to="/auth/forgot-password">{t('auth.forgotPassword', 'Forgot Password?')}</Link>
+            )}
+          </p>
         </div>
       </div>
     </div>
