@@ -1,10 +1,12 @@
 .auth-container {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   min-height: calc(100vh - 200px);
   padding: 2rem;
   background-color: #f8f8f8;
+  overflow-y: auto;
+  max-height: 90vh;
 }
 
 .auth-card {
@@ -49,7 +51,7 @@
 
   form {
     .form-group {
-      margin-bottom: 1.5rem;
+      margin-bottom: 1rem;
 
       label {
         display: block;
@@ -65,7 +67,7 @@
 
       input {
         width: 100%;
-        padding: 0.75rem;
+        padding: 0.6rem;
         border: 1px solid #ddd;
         border-radius: 4px;
         font-size: 1rem;
@@ -153,7 +155,8 @@
       color: #666;
       font-size: 0.9rem;
 
-      a, .text-button {
+      a,
+      .text-button {
         color: #13aa57;
         text-decoration: none;
         font-weight: 500;
@@ -176,6 +179,6 @@
   }
 
   .auth-card {
-    padding: 1.5rem;
+    padding: 1rem;
   }
 }
