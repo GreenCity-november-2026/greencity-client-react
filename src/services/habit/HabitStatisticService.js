@@ -17,7 +17,9 @@ class HabitStatisticService {
    */
   static async getTodayStatisticsForAllHabitItems(language = 'en') {
     try {
-      const response = await axios.get(`${HABIT_STATISTIC_LINK}/todayStatisticsForAllHabitItems?language=${language}`);
+      const response = await axios.get(
+        `${HABIT_STATISTIC_LINK}/todayStatisticsForAllHabitItems?lang=${language}`
+      );
       return response.data;
     } catch (error) {
       console.error('Error getting today statistics for all habit items:', error);
@@ -83,7 +85,10 @@ class HabitStatisticService {
       const response = await axios.get(`${HABIT_STATISTIC_LINK}/habit-assign/${habitAssignId}`);
       return response.data;
     } catch (error) {
-      console.error(`Error getting statistics for habit assignment with ID ${habitAssignId}:`, error);
+      console.error(
+        `Error getting statistics for habit assignment with ID ${habitAssignId}:`,
+        error
+      );
       throw error;
     }
   }
@@ -112,7 +117,9 @@ class HabitStatisticService {
    */
   static async getStatisticsByDateRange(startDate, endDate) {
     try {
-      const response = await axios.get(`${HABIT_STATISTIC_LINK}/range?startDate=${startDate}&endDate=${endDate}`);
+      const response = await axios.get(
+        `${HABIT_STATISTIC_LINK}/range?startDate=${startDate}&endDate=${endDate}`
+      );
       return response.data;
     } catch (error) {
       console.error(`Error getting statistics for date range ${startDate} to ${endDate}:`, error);
