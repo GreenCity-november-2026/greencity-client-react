@@ -1,34 +1,52 @@
 import React, { useState, useEffect } from 'react';
 import StatRow from './StatRow';
 import './StatRows.scss';
+import HabitStatisticService from '../../../services/habit/HabitStatisticService';
+import { useTranslation } from '../../../services/translation/TranslationService';
+
+const findCount = (items, keywords) => {
+  const item = items.find((i) =>
+    keywords.some((word) => i.habitItem?.toLowerCase().includes(word))
+  );
+  return item ? item.notTakenItems : 0;
+};
 
 const StatRows = () => {
   const [homePageHabitStats, setHomePageHabitStats] = useState([]);
+  const { currentLanguage } = useTranslation();
 
   useEffect(() => {
-    // TODO: Replace with actual API call to get habit statistics
-    // Mock data for now
-    const mockHabitStats = [
-      {
-        action: 'Did not take',
-        caption: 'bags',
-        count: 1234,
-        question: 'And how many packages did you not take today?',
-        iconPath: 'assets/img/habit-pic-bag.png',
-        locationText: 'you can buy eco-bags here'
-      },
-      {
-        action: 'Did not throw away',
-        caption: 'cups',
-        count: 5678,
-        question: 'And how many cups did you not throw away today?',
-        iconPath: 'assets/img/habit-pic-cup.png',
-        locationText: 'places that make a discount on a drink in your cup'
+    const fetchStats = async () => {
+      let items = [];
+      try {
+        const data =
+          await HabitStatisticService.getTodayStatisticsForAllHabitItems(currentLanguage);
+        items = Array.isArray(data) ? data : [];
+      } catch (error) {
+        console.error('Failed to load habit statistics:', error);
       }
-    ];
+      setHomePageHabitStats([
+        {
+          actionKey: 'homepage.stats.bags.action',
+          captionKey: 'homepage.stats.bags.caption',
+          questionKey: 'homepage.stats.bags.question',
+          linkKey: 'homepage.stats.bags.link',
+          count: findCount(items, ['bag', 'пакет', 'сумк']),
+          iconPath: 'assets/img/habit-pic-bag.png'
+        },
+        {
+          actionKey: 'homepage.stats.cups.action',
+          captionKey: 'homepage.stats.cups.caption',
+          questionKey: 'homepage.stats.cups.question',
+          linkKey: 'homepage.stats.cups.link',
+          count: findCount(items, ['cup', 'склян', 'стакан', 'чашк']),
+          iconPath: 'assets/img/habit-pic-cup.png'
+        }
+      ]);
+    };
 
-    setHomePageHabitStats(mockHabitStats);
-  }, []);
+    fetchStats();
+  }, [currentLanguage]);
 
   return (
     <div id="stat-rows">

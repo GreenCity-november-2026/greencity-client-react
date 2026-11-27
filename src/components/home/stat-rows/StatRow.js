@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import AuthModal from '../../auth/AuthModal';
 import { useTranslation } from '../../../services/translation/TranslationService';
 import './StatRow.scss';
 
 const StatRow = ({ stat, index }) => {
   const navigate = useNavigate();
-  const locationImage = 'assets/img/icon/location-icon.png';
+  const locationImage = 'assets/img/icon/location-icon.svg';
   const [showAuthModal, setShowAuthModal] = useState(false);
   const { t } = useTranslation();
 
@@ -42,17 +42,17 @@ const StatRow = ({ stat, index }) => {
           <div className="stat-row-content">
             <div className="content-wrapper" style={{ marginRight: isOdd ? 0 : 'auto' }}>
               <h3>
-                {stat.action} <span>{stat.count}</span> {stat.caption}
+                {t(stat.actionKey)} <span>{stat.count}</span> {t(stat.captionKey)}
               </h3>
-              <p>{stat.question}</p>
+              <p>{t(stat.questionKey)}</p>
               <button className="primary-global-button btn" onClick={startHabit}>
-                {t('homepage.general.button-start-habit')}
+                {t('homepage.stats.button-track-habit')}
               </button>
               <div className="location-row">
                 <img src={locationImage} alt="location-image" aria-hidden="true" />
-                <a className="tertiary-global-button btn-link" href="/places">
-                  {stat.locationText}
-                </a>
+                <Link className="tertiary-global-button btn-link" to="/map">
+                  {t(stat.linkKey)}
+                </Link>
               </div>
             </div>
           </div>
@@ -63,17 +63,17 @@ const StatRow = ({ stat, index }) => {
           <div className="stat-row-content">
             <div className="content-wrapper" style={{ marginLeft: !isOdd ? 0 : 'auto' }}>
               <h3>
-                {stat.action} <span>{stat.count}</span> {stat.caption}
+                {t(stat.actionKey)} <span>{stat.count}</span> {t(stat.captionKey)}
               </h3>
-              <p>{stat.question}</p>
+              <p>{t(stat.questionKey)}</p>
               <button className="primary-global-button btn" onClick={startHabit}>
-                {t('homepage.general.button-start-habit')}
+                {t('homepage.stats.button-track-habit')}
               </button>
               <div className="location-row">
                 <img src={locationImage} alt="location-image" aria-hidden="true" />
-                <a className="tertiary-global-button btn-link" href="/places">
-                  {stat.locationText}
-                </a>
+                <Link className="tertiary-global-button btn-link" to="/map">
+                  {t(stat.linkKey)}
+                </Link>
               </div>
             </div>
           </div>
@@ -86,12 +86,7 @@ const StatRow = ({ stat, index }) => {
       )}
 
       {/* Auth Modal */}
-      {showAuthModal && (
-        <AuthModal
-          initialPage="sign-in"
-          onClose={handleCloseAuthModal}
-        />
-      )}
+      {showAuthModal && <AuthModal initialPage="sign-up" onClose={handleCloseAuthModal} />}
     </div>
   );
 };
